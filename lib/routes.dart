@@ -5,7 +5,9 @@ import 'package:travel_app/representation/screen/guest_and_room_screen.dart';
 import 'package:travel_app/representation/screen/hotel_booking_screen.dart';
 import 'package:travel_app/representation/screen/hotels_screen.dart';
 import 'package:travel_app/representation/screen/intro_screen.dart';
+import 'package:travel_app/representation/screen/login_screen.dart';
 import 'package:travel_app/representation/screen/main_app.dart';
+import 'package:travel_app/representation/screen/profile_screen.dart';
 import 'package:travel_app/representation/screen/rooms_screen.dart';
 import 'package:travel_app/representation/screen/select_date_screen.dart';
 
@@ -19,6 +21,8 @@ final Map<String, WidgetBuilder> routes = {
   SelectDateScreen.routeName: (context) => SelectDateScreen(),
   GuestAndRoomScreen.routeName: (context) => GuestAndRoomScreen(),
   RoomsScreen.routeName: (context) => RoomsScreen(),
+  LoginScreen.routeName: (context) => LoginScreen(),
+  ProfileScreen.routeName: (context) => ProfileScreen(),
 };
 
 MaterialPageRoute<dynamic>? generateRoutes(RouteSettings settings) {
@@ -39,7 +43,6 @@ MaterialPageRoute<dynamic>? generateRoutes(RouteSettings settings) {
           roomModel: roomModel,
         ),
       );
-
     case HotelBookingScreen.routeName:
       final String? destination = (settings.arguments as String?);
       return MaterialPageRoute<dynamic>(

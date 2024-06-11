@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../core/constants/color_constants.dart';
 import '../../core/constants/dismension_constants.dart';
 import 'home_screen.dart';
+import 'profile_screen.dart'; // Import ProfileScreen
 
 class MainApp extends StatefulWidget {
   const MainApp({Key? key}) : super(key: key);
@@ -18,6 +19,13 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   int _currentIndex = 0;
 
+  final List<Widget> _screens = [
+    HomeScreen(),
+    Container(), // Likes screen placeholder
+    Container(), // Booking screen placeholder
+    ProfileScreen(), // Profile screen
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +33,7 @@ class _MainAppState extends State<MainApp> {
       bottomNavigationBar: SalomonBottomBar(
         currentIndex: _currentIndex,
         onTap: (i) => setState(
-          () => _currentIndex = i,
+              () => _currentIndex = i,
         ),
         selectedItemColor: ColorPalette.primaryColor,
         unselectedItemColor: ColorPalette.primaryColor.withOpacity(0.2),
@@ -64,12 +72,7 @@ class _MainAppState extends State<MainApp> {
       ),
       body: IndexedStack(
         index: _currentIndex,
-        children: [
-          HomeScreen(),
-          Container(),
-          Container(),
-          Container(),
-        ],
+        children: _screens,
       ),
     );
   }

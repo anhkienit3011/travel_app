@@ -1,58 +1,41 @@
-
-
 import 'package:flutter/material.dart';
-import 'package:travel_app/core/helpers/image_helper.dart';
-
-import '../../core/helpers/asset_helper.dart';
-import '../../core/helpers/local_storage_helper.dart';
-import 'intro_screen.dart';
-import 'main_app.dart';
+import 'package:travel_app/core/helpers/local_storage_helper.dart';
+import 'package:travel_app/representation/screen/login_screen.dart';
+import 'package:travel_app/representation/screen/main_app.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
-
-  static String routeName = '/splash_screen';
+  static const routeName = '/splash';
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
-    _routeToIntroScreen();
+    _checkLoginStatus();
   }
 
-  void _routeToIntroScreen() async {
-    final ignoreIntro = LocalStorageHelper.getValue('ignoreIntro') as bool?;
-    await Future.delayed(Duration(milliseconds: 1000));
-    if (ignoreIntro ?? false) {
-      Navigator.of(context).pushNamed(MainApp.routeName);
+  Future<void> _checkLoginStatus() async {
+    bool isLoggedIn = await LocalStorageHelper.isLoggedIn();
+
+    // Added delay for splash screen effect; remove or adjust as needed
+    await Future.delayed(Duration(seconds: 2));
+
+    if (isLoggedIn) {
+      Navigator.of(context).pushReplacementNamed(MainApp.routeName);
     } else {
-      LocalStorageHelper.setValue('ignoreIntro', true);
-      Navigator.of(context).pushNamed(IntroScreen.routeName);
+      Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: ImageHelper.loadFromAsset(
-            AssetHelper.backgroundSplash,
-            fit: BoxFit.fitWidth,
-          ),
-        ),
-        Positioned.fill(
-          child: ImageHelper.loadFromAsset(
-            AssetHelper.circleSplash,
-          ),
-        ),
-      ],
+    return Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(), // Replace with your splash screen content
+      ),
     );
   }
 }
-
