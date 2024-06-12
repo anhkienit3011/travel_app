@@ -2,6 +2,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorageHelper {
+
   static SharedPreferences? _prefs;
   LocalStorageHelper._internal();
   static final LocalStorageHelper _shared = LocalStorageHelper._internal();
