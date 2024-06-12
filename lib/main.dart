@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:travel_app/representation/screen/splash_screen.dart';
+import 'package:travel_app/representation/screen/login_screen.dart';
 import 'package:travel_app/routes.dart';
+
 import 'core/constants/color_constants.dart';
 import 'core/helpers/local_storage_helper.dart';
 import 'core/helpers/size_config.dart';
@@ -26,7 +28,8 @@ class TravoApp extends StatelessWidget {
       ),
       routes: routes,
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      onGenerateRoute: generateRoutes,
+      home: SplashScreen(), // Start with the SplashScreen
     );
   }
 }

@@ -1,28 +1,30 @@
+// lib/routes.dart
+
 import 'package:flutter/material.dart';
 import 'package:travel_app/representation/screen/check_out_screen.dart';
 import 'package:travel_app/representation/screen/detail_hotel_screen.dart';
 import 'package:travel_app/representation/screen/guest_and_room_screen.dart';
 import 'package:travel_app/representation/screen/hotel_booking_screen.dart';
 import 'package:travel_app/representation/screen/hotels_screen.dart';
-import 'package:travel_app/representation/screen/intro_screen.dart';
 import 'package:travel_app/representation/screen/login_screen.dart';
 import 'package:travel_app/representation/screen/main_app.dart';
 import 'package:travel_app/representation/screen/profile_screen.dart';
 import 'package:travel_app/representation/screen/rooms_screen.dart';
 import 'package:travel_app/representation/screen/select_date_screen.dart';
+import 'package:travel_app/representation/screen/splash_screen.dart';
 
 import 'data/model/hotel_model.dart';
 import 'data/model/room_model.dart';
 
 final Map<String, WidgetBuilder> routes = {
-  IntroScreen.routeName: (context) => const IntroScreen(),
+  SplashScreen.routeName: (context) => const SplashScreen(),
   MainApp.routeName: (context) => MainApp(),
+  LoginScreen.routeName: (context) => LoginScreen(),
+  ProfileScreen.routeName: (context) => ProfileScreen(),
   HotelsScreen.routeName: (context) => HotelsScreen(),
   SelectDateScreen.routeName: (context) => SelectDateScreen(),
   GuestAndRoomScreen.routeName: (context) => GuestAndRoomScreen(),
   RoomsScreen.routeName: (context) => RoomsScreen(),
-  LoginScreen.routeName: (context) => LoginScreen(),
-  ProfileScreen.routeName: (context) => ProfileScreen(),
 };
 
 MaterialPageRoute<dynamic>? generateRoutes(RouteSettings settings) {
