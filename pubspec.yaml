@@ -38,6 +38,8 @@ dependencies:
   flutter_svg: ^2.0.10+1
   hive_flutter: ^1.1.0
   shared_preferences: ^2.2.3
+  http: ^1.2.1
+  flutter_dotenv: ^5.1.0
 
 
 dev_dependencies:
@@ -72,6 +74,8 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - .env
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
