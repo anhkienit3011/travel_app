@@ -7,12 +7,17 @@ import 'package:travel_app/routes.dart';
 import 'core/constants/color_constants.dart';
 import 'core/helpers/local_storage_helper.dart';
 import 'core/helpers/size_config.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   await Hive.initFlutter();
   await LocalStorageHelper.initLocalStorageHelper();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const TravoApp());
 }
 

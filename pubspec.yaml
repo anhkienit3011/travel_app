@@ -42,6 +42,7 @@ dependencies:
   flutter_dotenv: ^5.1.0
   dio: ^5.4.3+1
   dialog_flowtter: ^0.2.0-nullsafety.0
+  firebase_core: ^3.1.0
 
 
 dev_dependencies:
@@ -76,9 +77,6 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
-    - .env
-    - assets/chatbot-flutter-trui-c285e0da61a0.json
-
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
