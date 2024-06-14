@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_app/core/constants/color_constants.dart';
@@ -5,6 +6,7 @@ import 'package:travel_app/core/extensions/validate.dart';
 import 'package:travel_app/core/helpers/local_storage_helper.dart';
 import 'package:travel_app/firebase_auth_impleentation/firebase_auth_services.dart';
 import 'package:travel_app/representation/screen/main_app.dart';
+
 
 import 'login_screen.dart';
 
@@ -37,6 +39,14 @@ class _SignUpState extends State<SignUp> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
+  TextEditingController _addressController = TextEditingController();
+  TextEditingController _DOBController = TextEditingController();
+  TextEditingController _firstNameController = TextEditingController();
+  TextEditingController _lastNameController = TextEditingController();
+  TextEditingController _phoneNumberController = TextEditingController();
+
+
+
   bool _isEmailValid = false;
 
   @override
@@ -90,34 +100,19 @@ class _SignUpState extends State<SignUp> {
                 SizedBox(height: 20),
                 inputForm("Confirm Password", _confirmPasswordController),
                 SizedBox(height: 50),
+                inputForm("First Name", _firstNameController),
+                SizedBox(height: 20),
+                inputForm("Last Name", _lastNameController),
+                SizedBox(height: 20),
+                inputForm("Date of Bith", _DOBController),
+                SizedBox(height: 20),
+                inputForm("Address", _addressController),
+                SizedBox(height: 20),
+                inputForm("Phone number", _phoneNumberController),
+                SizedBox(height: 20),
                 Center(
                   child: ElevatedButton(
-                    onPressed: () async {
-                      // Get the entered email and password
-                      String enteredEmail = _emailController.text;
-                      String enteredPassword = _passwordController.text;
-                      String enteredConfirmPassword = _confirmPasswordController.text;
-
-                      // Check if the entered password and confirm password match
-                      if (enteredPassword == enteredConfirmPassword) {
-                        User? user = await _auth.signUpWithEmailAndPassword(enteredEmail, enteredPassword);
-
-                        if (user != null){
-                          print("Sign up success");
-                          Navigator.pushReplacementNamed(context, MainApp.routeName);
-                        } else {
-                          print("Some error happened");
-                        }
-                      } else {
-                        // Show an error message for mismatched password and confirm password
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Password and confirm password do not match'),
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
-                      }
-                    },
+                    onPressed: _signUp,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: ColorPalette.primaryColor,
                       shape: RoundedRectangleBorder(
@@ -209,5 +204,57 @@ class _SignUpState extends State<SignUp> {
         )
       ],
     );
+  }
+
+  void _signUp() async {
+    String email = _emailController.text;
+    String password = _passwordController.text;
+    String enteredConfirmPassword = _confirmPasswordController.text;
+
+    if( password == enteredConfirmPassword){
+      User? user = await _auth.signUpWithEmailAndPassword(email, password);
+
+      if (user != null){
+        print("Sign Up success");
+        Navigator.pushReplacementNamed(context, MainApp.routeName);
+      }else{
+        print("Some error happend");
+      }
+    }
+    else{
+      // Show an error message for mismatched password and confirm password
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Password and confirm password do not match'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      addUserDetails(
+        _firstNameController.text.trim(),
+        _lastNameController.text.trim(),
+        Timestamp.fromDate(DateTime.parse(_DOBController.text)),
+        _addressController.text.trim(),
+        _phoneNumberController.text.trim(),
+
+
+      );
+    }
+    // add user details
+
+
+
+  }
+  Future addUserDetails(
+      String first_name,String last_name,Timestamp date_of_birth, String address, String phone_number
+      ) async{
+    await FirebaseFirestore.instance.collection('users').add({
+      'first_name': first_name,
+      'last_name': last_name,
+      'date_of_birth':date_of_birth,
+      'address':address,
+      'phone_number':phone_number,
+      'creat_at' : DateTime.now(),
+
+    });
   }
 }
