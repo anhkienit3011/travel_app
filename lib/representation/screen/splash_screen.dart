@@ -3,7 +3,7 @@ import 'package:travel_app/core/helpers/image_helper.dart';
 import 'package:travel_app/core/helpers/asset_helper.dart';
 import 'package:travel_app/core/helpers/local_storage_helper.dart';
 import 'package:travel_app/representation/screen/main_app.dart';
-import 'package:travel_app/representation/screen/login_screen.dart';
+import 'package:travel_app/representation/screen/login/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);

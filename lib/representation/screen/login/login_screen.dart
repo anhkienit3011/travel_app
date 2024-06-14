@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_app/core/constants/color_constants.dart';
 import 'package:travel_app/core/extensions/validate.dart';
 import 'package:travel_app/core/helpers/local_storage_helper.dart';
+import 'package:travel_app/firebase_auth_impleentation/firebase_auth_services.dart';
+import 'package:travel_app/representation/screen/login/signup_screen.dart';
 import 'package:travel_app/representation/screen/main_app.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -28,6 +31,8 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final FirebaseAuthServices _auth = FirebaseAuthServices();
+
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   bool _isEmailValid = false;
@@ -90,33 +95,7 @@ class _LoginState extends State<Login> {
                 SizedBox(height: 50),
                 Center(
                   child: ElevatedButton(
-                    onPressed: () async {
-                      // Sample username and password
-                      const sampleUsername = 'admin@admin.com';
-                      const samplePassword = 'password';
-
-                      // Get the entered email and password
-                      String enteredEmail = _emailController.text;
-                      String enteredPassword = _passwordController.text;
-
-                      // Check if the entered credentials match the sample username and password
-                      if (enteredEmail == sampleUsername &&
-                          enteredPassword == samplePassword) {
-
-                        await LocalStorageHelper.setLoginStatus(true);
-
-                        // Navigate to the main app screen
-                        Navigator.pushReplacementNamed(context, MainApp.routeName);
-                      } else {
-                        // Show an error message for invalid credentials
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Invalid username or password'),
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
-                      }
-                    },
+                    onPressed: _logIn,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: ColorPalette.primaryColor,
                       shape: RoundedRectangleBorder(
@@ -134,17 +113,24 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
+
                 SizedBox(height: 50),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("New User? "),
-                    Text(
-                      "Sign Up",
-                      style: TextStyle(color: ColorPalette.primaryColor),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacementNamed(context, SignUpScreen.routeName);
+                      },
+                      child: Text(
+                        "Sign Up",
+                        style: TextStyle(color: ColorPalette.primaryColor),
+                      ),
                     )
                   ],
                 )
+
               ],
             ),
           ),
@@ -203,4 +189,18 @@ class _LoginState extends State<Login> {
       ],
     );
   }
+  void _logIn() async {
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    User? user = await _auth.signInWithEmailAndPassword(email, password);
+
+    if (user != null){
+      print("Login success");
+      Navigator.pushReplacementNamed(context, MainApp.routeName);
+    }else{
+      print("Some error happend");
+    }
+  }
 }
+

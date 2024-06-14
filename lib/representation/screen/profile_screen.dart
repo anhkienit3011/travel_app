@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:travel_app/core/constants/color_constants.dart';
 import 'package:travel_app/core/helpers/local_storage_helper.dart';
-import 'login_screen.dart';
+import 'login/login_screen.dart';
 import 'package:flutter/cupertino.dart';
 
 class ProfileScreen extends StatelessWidget {

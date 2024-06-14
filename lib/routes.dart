@@ -1,11 +1,13 @@
+// lib/routes.dart
+
 import 'package:flutter/material.dart';
-import 'package:travel_app/representation/screen/chat_screen.dart';
 import 'package:travel_app/representation/screen/check_out_screen.dart';
 import 'package:travel_app/representation/screen/detail_hotel_screen.dart';
 import 'package:travel_app/representation/screen/guest_and_room_screen.dart';
 import 'package:travel_app/representation/screen/hotel_booking_screen.dart';
 import 'package:travel_app/representation/screen/hotels_screen.dart';
-import 'package:travel_app/representation/screen/login_screen.dart';
+import 'package:travel_app/representation/screen/login/login_screen.dart';
+import 'package:travel_app/representation/screen/login/signup_screen.dart';
 import 'package:travel_app/representation/screen/main_app.dart';
 import 'package:travel_app/representation/screen/profile_screen.dart';
 import 'package:travel_app/representation/screen/rooms_screen.dart';
@@ -24,6 +26,7 @@ final Map<String, WidgetBuilder> routes = {
   SelectDateScreen.routeName: (context) => SelectDateScreen(),
   GuestAndRoomScreen.routeName: (context) => GuestAndRoomScreen(),
   RoomsScreen.routeName: (context) => RoomsScreen(),
+  SignUpScreen.routeName: (context) => SignUpScreen(),
   ChatScreen.routeName: (context) => ChatScreen(),
 };
 
