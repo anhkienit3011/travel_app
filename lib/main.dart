@@ -38,17 +38,11 @@ class TravoApp extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return SplashScreen();
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
               } else {
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  final isLoggedIn = snapshot.data ?? false;
-                  if (isLoggedIn) {
-                    return SplashScreen();
-                  } else {
-                    return LoginScreen();
-                  }
-                }
+                final isLoggedIn = snapshot.data ?? false;
+                return isLoggedIn ? SplashScreen() : LoginScreen();
               }
             },
           );

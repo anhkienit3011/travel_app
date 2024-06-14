@@ -40,6 +40,8 @@ dependencies:
   shared_preferences: ^2.2.3
   http: ^1.2.1
   flutter_dotenv: ^5.1.0
+  dio: ^5.4.3+1
+  dialog_flowtter: ^0.2.0-nullsafety.0
 
 
 dev_dependencies:
@@ -75,6 +77,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - .env
+    - assets/chatbot-flutter-trui-c285e0da61a0.json
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

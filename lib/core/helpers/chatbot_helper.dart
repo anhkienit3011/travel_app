@@ -2,37 +2,37 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class ChatbotHelper {
-  static final String _apiKey = dotenv.env['OPENAI_API_KEY'] ?? '';
-  static final Uri _apiUrl = Uri.parse('https://api.openai.com/v1/chat/completions');
+class DialogflowHelper {
+  static final String _apiKey = dotenv.env['DIALOGFLOW_API_KEY'] ?? '';
 
   static Future<String?> getChatbotResponse(String message) async {
     try {
       final response = await http.post(
-        _apiUrl,
+        Uri.parse('https://dialogflow.googleapis.com/v2/projects/chatbot-flutter-trui/agent/sessions/default:detectIntent'),
         headers: {
-          'Authorization': 'Bearer $_apiKey',
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer $_apiKey',
         },
         body: jsonEncode({
-          'model': 'gpt-3.5-turbo', // Change to the correct model
-          'messages': [
-            {'role': 'system', 'content': 'You are a helpful assistant.'},
-            {'role': 'user', 'content': message},
-          ],
+          "queryInput": {
+            "text": {
+              "text": message,
+              "languageCode": "en"
+            }
+          }
         }),
       );
 
       if (response.statusCode == 200) {
-        final jsonResponse = jsonDecode(response.body);
-        return jsonResponse['choices'][0]['message']['content']?.trim();
+        var jsonResponse = jsonDecode(response.body);
+        return jsonResponse['queryResult']['fulfillmentText'];
       } else {
-        print('Error: ${response.statusCode}');
-        return null;
+        print('Failed to get response: ${response.statusCode}');
+        return 'Error: ${response.statusCode}';
       }
     } catch (e) {
       print('Exception: $e');
-      return null;
+      return 'Error: $e';
     }
   }
 }
