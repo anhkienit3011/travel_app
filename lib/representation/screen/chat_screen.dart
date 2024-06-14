@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart' show rootBundle;
 import 'package:dialog_flowtter/dialog_flowtter.dart';
+import 'package:travel_app/core/constants/color_constants.dart';
 // import 'dart:convert';
 
 class ChatScreen extends StatefulWidget {
@@ -76,7 +77,7 @@ class _ChatScreenState extends State<ChatScreen> {
           Expanded(child: MessagesScreen(messages: messages)),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-            color: Colors.deepPurple,
+            color: ColorPalette.primaryColor,
             child: Row(
               children: [
                 Expanded(
@@ -85,7 +86,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       hintText: 'Enter message',
-                      hintStyle: TextStyle(color: Colors.white70),
+                      hintStyle: TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
@@ -121,10 +122,11 @@ class MessagesScreen extends StatelessWidget {
       itemCount: messages.length,
       itemBuilder: (context, index) {
         final message = messages[index];
+        final bool isUserMessage = message['isUserMessage'];
         return Container(
           margin: const EdgeInsets.all(10),
           child: Row(
-            mainAxisAlignment: message['isUserMessage']
+            mainAxisAlignment: isUserMessage
                 ? MainAxisAlignment.end
                 : MainAxisAlignment.start,
             children: [
@@ -134,15 +136,20 @@ class MessagesScreen extends StatelessWidget {
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
-                    bottomRight: Radius.circular(message['isUserMessage'] ? 0 : 20),
-                    topLeft: Radius.circular(message['isUserMessage'] ? 20 : 0),
+                    bottomRight: Radius.circular(isUserMessage ? 0 : 20),
+                    topLeft: Radius.circular(isUserMessage ? 20 : 0),
                   ),
-                  color: message['isUserMessage']
-                      ? Colors.grey.shade800
-                      : Colors.grey.shade900.withOpacity(0.8),
+                  color: isUserMessage
+                      ? ColorPalette.primaryColor
+                      : ColorPalette.primaryColor,
                 ),
                 constraints: BoxConstraints(maxWidth: w * 2 / 3),
-                child: Text(message['message'].text.text[0]),
+                child: Text(
+                  message['message'].text.text[0],
+                  style: TextStyle(
+                    color: isUserMessage ? Colors.white : Colors.white,
+                  ),
+                ),
               ),
             ],
           ),
