@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:travel_app/representation/screen/chat_screen.dart';
 
 import '../../core/constants/color_constants.dart';
 import '../../core/constants/dismension_constants.dart';
 import 'home_screen.dart';
+import 'profile_screen.dart';
 
 class MainApp extends StatefulWidget {
   const MainApp({Key? key}) : super(key: key);
@@ -18,15 +20,20 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   int _currentIndex = 0;
 
+  final List<Widget> _screens = [
+    HomeScreen(),
+    ChatScreen(), // Chatbot screen
+    Container(), // Placeholder for Booking screen
+    ProfileScreen(), // Profile screen
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       bottomNavigationBar: SalomonBottomBar(
         currentIndex: _currentIndex,
-        onTap: (i) => setState(
-          () => _currentIndex = i,
-        ),
+        onTap: (i) => setState(() => _currentIndex = i),
         selectedItemColor: ColorPalette.primaryColor,
         unselectedItemColor: ColorPalette.primaryColor.withOpacity(0.2),
         selectedColorOpacity: 0.2,
@@ -41,10 +48,10 @@ class _MainAppState extends State<MainApp> {
           ),
           SalomonBottomBarItem(
             icon: Icon(
-              FontAwesomeIcons.solidHeart,
+              FontAwesomeIcons.robot,
               size: kDefaultPadding,
             ),
-            title: Text("Likes"),
+            title: Text("Chatbot"),
           ),
           SalomonBottomBarItem(
             icon: Icon(
@@ -64,12 +71,7 @@ class _MainAppState extends State<MainApp> {
       ),
       body: IndexedStack(
         index: _currentIndex,
-        children: [
-          HomeScreen(),
-          Container(),
-          Container(),
-          Container(),
-        ],
+        children: _screens,
       ),
     );
   }
