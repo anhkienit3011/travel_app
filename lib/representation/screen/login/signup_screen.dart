@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_app/core/constants/color_constants.dart';
 import 'package:travel_app/core/extensions/validate.dart';
-import 'package:travel_app/core/helpers/local_storage_helper.dart';
+
 import 'package:travel_app/firebase_auth_impleentation/firebase_auth_services.dart';
 import 'package:travel_app/representation/screen/main_app.dart';
 
@@ -253,7 +253,7 @@ class _SignUpState extends State<SignUp> {
       'date_of_birth':date_of_birth,
       'address':address,
       'phone_number':phone_number,
-      'creat_at' : DateTime.now(),
+      'creat_at' : Timestamp.fromDate(DateTime.now()),
 
     });
   }
