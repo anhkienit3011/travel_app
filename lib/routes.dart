@@ -1,6 +1,7 @@
 // lib/routes.dart
 
 import 'package:flutter/material.dart';
+import 'package:travel_app/representation/screen/chat_screen.dart';
 import 'package:travel_app/representation/screen/check_out_screen.dart';
 import 'package:travel_app/representation/screen/detail_hotel_screen.dart';
 import 'package:travel_app/representation/screen/guest_and_room_screen.dart';
