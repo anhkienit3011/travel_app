@@ -213,6 +213,15 @@ class _SignUpState extends State<SignUp> {
 
     if( password == enteredConfirmPassword){
       User? user = await _auth.signUpWithEmailAndPassword(email, password);
+      addUserDetails(
+        _firstNameController.text.trim(),
+        _lastNameController.text.trim(),
+        //Timestamp.fromDate(DateTime.parse(_DOBController.text)),
+        _addressController.text.trim(),
+        _phoneNumberController.text.trim(),
+
+
+      );
 
       if (user != null){
         print("Sign Up success");
@@ -229,15 +238,7 @@ class _SignUpState extends State<SignUp> {
           duration: Duration(seconds: 2),
         ),
       );
-      addUserDetails(
-        _firstNameController.text.trim(),
-        _lastNameController.text.trim(),
-        Timestamp.fromDate(DateTime.parse(_DOBController.text)),
-        _addressController.text.trim(),
-        _phoneNumberController.text.trim(),
 
-
-      );
     }
     // add user details
 
@@ -245,15 +246,15 @@ class _SignUpState extends State<SignUp> {
 
   }
   Future addUserDetails(
-      String first_name,String last_name,Timestamp date_of_birth, String address, String phone_number
+      String first_name,String last_name, String address, String phone_number
       ) async{
     await FirebaseFirestore.instance.collection('users').add({
       'first_name': first_name,
       'last_name': last_name,
-      'date_of_birth':date_of_birth,
+      //'date_of_birth':date_of_birth,
       'address':address,
       'phone_number':phone_number,
-      'creat_at' : Timestamp.fromDate(DateTime.now()),
+      //'create_at' : Timestamp.fromDate(DateTime.now()),
 
     });
   }
