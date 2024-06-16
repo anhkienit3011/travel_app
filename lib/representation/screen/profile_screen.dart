@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:travel_app/core/constants/color_constants.dart';
 import 'package:travel_app/core/helpers/local_storage_helper.dart';
+import 'package:travel_app/representation/screen/user_detail_info.dart';
 import 'login/login_screen.dart';
 import 'package:flutter/cupertino.dart';
 
 class ProfileScreen extends StatelessWidget {
   static const routeName = '/profile_screen';
-
+  void _navigateToUserDetailInfo(BuildContext context) {
+    Navigator.of(context).pushNamed(UserInfoScreen.routeName);
+  }
   Future<void> _logout(BuildContext context) async {
     // Perform logout action here
     await LocalStorageHelper.setLoginStatus(false);
@@ -150,6 +153,8 @@ class ProfileScreen extends StatelessWidget {
                       // Check if the tile is Logout, then perform logout action
                       if (tile.title == 'Logout') {
                         _logout(context);
+                      }else if (tile.title == 'User Detail Information') {
+                        _navigateToUserDetailInfo(context);
                       }
                     },
                   ),
@@ -210,9 +215,10 @@ List<CustomListTile> customListTiles = [
     icon: Icons.location_on_outlined,
     title: "Location",
   ),
+
   CustomListTile(
-    title: "Notifications",
-    icon: CupertinoIcons.bell,
+    title: "User Detail Information",
+    icon: Icons.person_outline, // Thay đổi icon nếu muốn
   ),
   CustomListTile(
     title: "Logout",

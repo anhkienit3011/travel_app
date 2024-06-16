@@ -219,6 +219,7 @@ class _SignUpState extends State<SignUp> {
         //Timestamp.fromDate(DateTime.parse(_DOBController.text)),
         _addressController.text.trim(),
         _phoneNumberController.text.trim(),
+        email.trim(),
 
 
       );
@@ -246,7 +247,7 @@ class _SignUpState extends State<SignUp> {
 
   }
   Future addUserDetails(
-      String first_name,String last_name, String address, String phone_number
+      String first_name,String last_name, String address, String phone_number,String email
       ) async{
     await FirebaseFirestore.instance.collection('users').add({
       'first_name': first_name,
@@ -254,6 +255,7 @@ class _SignUpState extends State<SignUp> {
       //'date_of_birth':date_of_birth,
       'address':address,
       'phone_number':phone_number,
+      'email' : email,
       //'create_at' : Timestamp.fromDate(DateTime.now()),
 
     });
