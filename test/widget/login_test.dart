@@ -1,61 +1,81 @@
-// test/widget/login_test.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
+import 'package:mockito/mockito.dart';
 import 'package:travel_app/representation/screen/login/login_screen.dart';
-import 'package:travel_app/firebase_auth_impleentation/firebase_auth_services.dart'; // Adjust the import path based on your project structure
+import 'package:travel_app/firebase_auth_impleentation/firebase_auth_services.dart';
+
+// Mock FirebaseAuthServices
+class MockFirebaseAuthServices extends Mock implements FirebaseAuthServices {}
 
 void main() {
-  late MockFirebaseAuth mockAuth;
-  late FirebaseAuthServices authService;
+  late MockFirebaseAuthServices mockAuth;
 
   setUp(() {
-    mockAuth = MockFirebaseAuth();
-    authService = FirebaseAuthServices(auth: mockAuth);
+    mockAuth = MockFirebaseAuthServices();
   });
 
-  testWidgets('Login button triggers Firebase Auth sign-in', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(
+  Widget createWidgetUnderTest() {
+    return MaterialApp(
       home: LoginScreen(),
-      // Inject your mock auth service
-      builder: (context, child) {
-        return MockFirebaseAuthServices(auth: mockAuth, child: child!);
-      },
-    ));
+    );
+  }
 
-    final emailField = find.byType(TextField).at(0);
-    final passwordField = find.byType(TextField).at(1);
-    final loginButton = find.text('Login');
+  testWidgets('LoginScreen has a title and login form', (WidgetTester tester) async {
+    await tester.pumpWidget(createWidgetUnderTest());
 
-    await tester.enterText(emailField, 'test@example.com');
-    await tester.enterText(passwordField, 'password');
-    await tester.tap(loginButton);
-    await tester.pump();
-
-    // Check if the user was signed in
-    expect(authService.currentUser?.email, 'test@example.com');
+    // Verify that our counter starts at 0.
+    expect(find.text('Welcome'), findsOneWidget);
+    expect(find.text('Sign in to continue.'), findsOneWidget);
+    expect(find.text('Email'), findsOneWidget);
+    expect(find.text('Password'), findsOneWidget);
+    expect(find.text('Login'), findsOneWidget);
   });
 
-  testWidgets('Validate email address shows error on invalid input', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(
-      home: LoginScreen(),
-      builder: (context, child) {
-        return MockFirebaseAuthServices(auth: mockAuth, child: child!);
-      },
-    ));
+  testWidgets('Email validation works correctly', (WidgetTester tester) async {
+    await tester.pumpWidget(createWidgetUnderTest());
 
-    final emailField = find.byType(TextField).at(0);
+    final emailField = find.widgetWithText(TextField, 'Email');
+
+    // Enter invalid email
     await tester.enterText(emailField, 'invalid-email');
     await tester.pump();
 
-    // Your implementation to check for validation, for example,
-    // Assuming you are using BoxDecoration color change to show invalid input.
+    // Check if the border is red (indicating invalid input)
     final container = find.ancestor(
       of: emailField,
       matching: find.byType(Container),
     );
-
     final containerDecoration = tester.widget<Container>(container).decoration as BoxDecoration;
-    expect(containerDecoration.border?.top.color, Colors.red);
+    expect(containerDecoration.border!.top.color, Colors.red);
+
+    // Enter valid email
+    await tester.enterText(emailField, 'valid@email.com');
+    await tester.pump();
+
+    // Check if the border is green (indicating valid input)
+    final updatedContainerDecoration = tester.widget<Container>(container).decoration as BoxDecoration;
+    expect(updatedContainerDecoration.border!.top.color, Colors.green);
+  });
+
+  testWidgets('Password field is obscured', (WidgetTester tester) async {
+    await tester.pumpWidget(createWidgetUnderTest());
+
+    final passwordField = find.widgetWithText(TextField, 'Password');
+    expect(tester.widget<TextField>(passwordField).obscureText, true);
+  });
+
+  testWidgets('Login button press calls FirebaseAuthServices', (WidgetTester tester) async {
+    await tester.pumpWidget(createWidgetUnderTest());
+
+    // Enter email and password
+    await tester.enterText(find.widgetWithText(TextField, 'Email'), 'test@example.com');
+    await tester.enterText(find.widgetWithText(TextField, 'Password'), 'password');
+
+    // Tap the login button
+    await tester.tap(find.text('Login'));
+    await tester.pump();
+
+    // Verify that the signInWithEmailAndPassword method was called
+    verify(mockAuth.signInWithEmailAndPassword('test@example.com', 'password')).called(1);
   });
 }
