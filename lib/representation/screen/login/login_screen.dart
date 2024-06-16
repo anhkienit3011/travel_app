@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_app/core/constants/color_constants.dart';
 import 'package:travel_app/core/extensions/validate.dart';
-import 'package:travel_app/core/helpers/local_storage_helper.dart';
 import 'package:travel_app/firebase_auth_impleentation/firebase_auth_services.dart';
 import 'package:travel_app/representation/screen/login/signup_screen.dart';
 import 'package:travel_app/representation/screen/main_app.dart';
@@ -113,7 +112,6 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
-
                 SizedBox(height: 50),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -130,7 +128,6 @@ class _LoginState extends State<Login> {
                     )
                   ],
                 )
-
               ],
             ),
           ),
@@ -183,24 +180,25 @@ class _LoginState extends State<Login> {
                   }
                 }
               },
+              obscureText: title == "Password", // Secure password input
             ),
           ),
         )
       ],
     );
   }
+
   void _logIn() async {
     String email = _emailController.text;
     String password = _passwordController.text;
 
     User? user = await _auth.signInWithEmailAndPassword(email, password);
 
-    if (user != null){
+    if (user != null) {
       print("Login success");
       Navigator.pushReplacementNamed(context, MainApp.routeName);
-    }else{
-      print("Some error happend");
+    } else {
+      print("Some error happened");
     }
   }
 }
-

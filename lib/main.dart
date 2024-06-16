@@ -36,7 +36,12 @@ class TravoApp extends StatelessWidget {
       routes: routes,
       debugShowCheckedModeBanner: false,
       onGenerateRoute: generateRoutes,
-      home: SplashScreen(), // Start with the SplashScreen
+      home: Builder(
+        builder: (context) {
+          SizeConfig.init(context); // Initialize SizeConfig here
+          return SplashScreen(); // Start with the SplashScreen
+        },
+      ),
     );
   }
 }

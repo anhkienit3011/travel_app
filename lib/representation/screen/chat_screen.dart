@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart' show rootBundle;
 import 'package:dialog_flowtter/dialog_flowtter.dart';
 import 'package:travel_app/core/constants/color_constants.dart';
 // import 'dart:convert';
